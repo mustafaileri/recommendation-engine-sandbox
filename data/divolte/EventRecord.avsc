@@ -1,0 +1,13 @@
+{
+  "namespace": "io.divolte.examples.record",
+  "type": "record",
+  "name": "MyEventRecord",
+  "fields": [
+        { "name": "click_stream_cookie_id", "type": "string"},
+        { "name": "event_name",             "type": "string"},
+        { "name": "item_id",                "type": "string"},
+        { "name": "event_date",             "type": "long"},
+        { "name": "url",                    "type": ["null", "string"], "default": null},
+        { "name": "client_ip",              "type": ["null", "string"], "default": null}
+    ]
+}
