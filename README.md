@@ -9,7 +9,7 @@ Then you can visit the http://localhost:8290/
 To send an event to divolte:
 ```js
 divolte.signal('event', {"item_id": 101321, "event_date":3213213})
-
+```
 To connect Apache Cassandra:
 ```sh
 docker-compose exec  cassandra /bin/bash
