@@ -1,0 +1,6 @@
+kafka-python==1.4.3
+avro-python3==1.8.2
+lz4==2.1.0
+cassandra-driver==3.14.0
+avro-python3==1.8.2
+ipdb

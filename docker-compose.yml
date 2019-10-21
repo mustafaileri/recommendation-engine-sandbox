@@ -19,6 +19,7 @@ services:
       - ./data/divolte/divolte-collector.conf:/opt/app/divolte-collector/conf/divolte-collector.conf
       - ./data/divolte/EventRecord.avsc:/opt/app/divolte-collector/conf/EventRecord.avsc
       - ./data/divolte/mapping.groovy:/opt/app/divolte-collector/conf/mapping.groovy
+
   zookeeper:
     image: wurstmeister/zookeeper:3.4.6
     restart: always
@@ -38,3 +39,30 @@ services:
       - zookeeper
     depends_on:
       - zookeeper
+
+  click_stream_consumer:
+    image: python:3.7.0
+    restart: always
+    env_file:
+      - click_stream_consumer.env
+    working_dir: /app
+    volumes:
+      - ./consumer:/app
+      - ./.docker/click_stream_consumer/.cache:/root/.cache
+      - ./data/divolte/EventRecord.avsc:/opt/app/divolte-collector/conf/EventRecord.avsc
+    command: bash -c "pip install -r /app/requirements.txt && cd /app/ && python -u sync-tool.py && python -u  click_stream_consumer.py"
+    #command: bash -c "pip install -r requirements.txt && tail -f /dev/null"
+    depends_on:
+      - kafka
+      - cassandra
+
+  cassandra:
+    image: 'bitnami/cassandra:latest'
+    restart: always
+    labels:
+      kompose.service.type: nodeport
+    ports:
+      - '7000:7000'
+      - '7001:7001'
+      - '9042:9042'
+      - '9160:9160'
